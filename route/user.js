@@ -55,14 +55,14 @@ router.post("/user/signup", async (req, res) => {
     });
     await newUser.save();
 
-    const userCreateResponse = {
+
+    res.status(200).json({
       _id: newUser.id,
       token: newUser.token,
       account: {
         username: newUser.account.username,
       },
-    };
-    res.status(200).json({ userCreateResponse });
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -101,14 +101,14 @@ router.post("/user/signin", async (req, res) => {
     }
 
     // Create user and response
-    const userAuthResponse = {
+    res.status(200).json({
       _id: userToAuth.id,
       token: userToAuth.token,
       account: {
         username: userToAuth.account.username,
       },
-    };
-    res.status(200).json({ userAuthResponse });
+    });
+
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
