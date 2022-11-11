@@ -49,6 +49,7 @@ router.post("/user/signup", async (req, res) => {
         username: username,
         avatar: null,
       },
+      salt: salt,
       hash: hash,
       token: token,
       newsletter: newsletter,
@@ -97,7 +98,11 @@ router.post("/user/signin", async (req, res) => {
     // Compare hash
     const hashToAuth = SHA256(password + userToAuth.salt).toString(encBase64);
     if (hashToAuth !== userToAuth.hash) {
-      return res.status(400).json({ message: "Wrong password" });
+      return res.status(400).json({
+        message: "Wrong password (test)",
+        password: password,
+        hash: hashToAuth
+      });
     }
 
     // Create user and response
