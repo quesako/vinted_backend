@@ -73,11 +73,10 @@ router.post("/user/signup", async (req, res) => {
  * @param {Object} body
  * @param {string} [body.username]
  * @param {number} [body.password]
- * @param {number} [body.newsletter]
  * @returns {Object}
  */
 
-router.post("/user/login", async (req, res) => {
+router.post("/user/signin", async (req, res) => {
   try {
     // Missing parameter
     if (!req.body.email && !req.body.password) {

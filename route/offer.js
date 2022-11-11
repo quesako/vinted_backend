@@ -19,7 +19,6 @@ cloudinary.config({
 /**
  * Publish offer
  */
-
 router.post("/offer/publish", auth, fileUpload(), async (req, res) => {
   try {
     // Missing parameters
@@ -88,7 +87,7 @@ router.post("/offer/publish", auth, fileUpload(), async (req, res) => {
 });
 
 /**
- * Find offers with query
+ * Find offers with query and pagination
  */
 router.get("/offers", async (req, res) => {
   try {
@@ -139,6 +138,9 @@ router.get("/offers", async (req, res) => {
   }
 });
 
+/**
+ * Find offer single by id
+ */
 router.get("/offer/:id", async (req, res) => {
   try {
     const offer = await Offer.findById(req.params.id);
