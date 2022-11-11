@@ -109,7 +109,7 @@ router.post("/user/signin", async (req, res) => {
         username: userToAuth.account.username,
       },
     };
-    res.status(200).json({ message: userAuthResponse });
+    res.status(200).json({ userAuthResponse });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
