@@ -94,10 +94,12 @@ router.get("/offers", async (req, res) => {
   try {
     const queryOptions = {};
     const { title, priceMax, priceMin, sort, page } = req.query;
+
     //query title
     if (title) {
       queryOptions.product_name = new RegExp(req.query.title, "i");
     }
+
     // price
     if (priceMin && priceMax) {
       queryOptions.product_price = { $gte: priceMin, $lte: priceMax };
@@ -109,7 +111,6 @@ router.get("/offers", async (req, res) => {
         queryOptions.product_price = { $lte: priceMax };
       }
     }
-    //console.log(queryOptions);
 
     //sortOption
     const sortOptions = {};
@@ -132,7 +133,7 @@ router.get("/offers", async (req, res) => {
       .skip((paginateOptions.page - 1) * paginateOptions.limit)
       .select("product_name product_price -_id");
 
-    res.status(200).json({ count: queryOffersCounter, message: queryOffers });
+    res.status(200).json({ count: queryOffersCounter, offers: queryOffers });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -141,7 +142,7 @@ router.get("/offers", async (req, res) => {
 router.get("/offer/:id", async (req, res) => {
   try {
     const offer = await Offer.findById(req.params.id);
-    res.status(200).json({ message: offer });
+    res.status(200).json({ offer });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
