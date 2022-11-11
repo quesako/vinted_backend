@@ -62,7 +62,7 @@ router.post("/user/signup", async (req, res) => {
         username: newUser.account.username,
       },
     };
-    res.status(200).json({ message: userCreateResponse });
+    res.status(200).json({ userCreateResponse });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -97,7 +97,6 @@ router.post("/user/signin", async (req, res) => {
     // Compare hash
     const hashToAuth = SHA256(password + userToAuth.salt).toString(encBase64);
     if (hashToAuth !== userToAuth.hash) {
-      console.log("hashToAuth:", hashToAuth, "userHash:", userToAuth.hash);
       return res.status(400).json({ message: "Wrong password" });
     }
 
