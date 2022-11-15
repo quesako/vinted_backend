@@ -16,9 +16,13 @@ mongoose.connect(process.env.MONGODB_URI);
 
 const allOfferRoutes = require("./route/offer");
 const allUserRoutes = require("./route/user");
+const paymentRoute = require("./route/payment");
+
 
 app.use(allOfferRoutes);
 app.use(allUserRoutes);
+app.use(paymentRoute);
+
 
 /*
  * * Default routing

@@ -92,7 +92,7 @@ router.post("/offer/publish", auth, fileUpload(), async (req, res) => {
 router.get("/offers", async (req, res) => {
   try {
     const queryOptions = {};
-    const { title, priceMax, priceMin, sort, page } = req.query;
+    const { title, priceMax, priceMin, sort } = req.query;
 
     //query title
     if (title) {
@@ -121,16 +121,25 @@ router.get("/offers", async (req, res) => {
     }
 
     // PaginateOption
-    const paginateOptions = {
-      page: page,
-      limit: 1,
-    };
+
+    let page
+    if (Number(req.query.page) < 1) {
+      page = 1;
+    } else {
+      page = Number(req.query.page);
+    }
+
+    let limit = Number(req.query.limit);
+
     const queryOffersCounter = await Offer.find(queryOptions).count();
     const queryOffers = await Offer.find(queryOptions)
+       .populate({
+          path: "owner",
+          select: "account",
+       })
       .sort(sortOptions)
-      .limit(paginateOptions.limit)
-      .skip((paginateOptions.page - 1) * paginateOptions.limit)
-      .select("product_name product_price -_id");
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     res.status(200).json({ count: queryOffersCounter, offers: queryOffers });
   } catch (error) {
